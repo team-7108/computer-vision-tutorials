@@ -174,15 +174,25 @@ while True:
     # Apply non-maximum suppression, reference: https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
     pick = non_max_suppression_fast(bboxes, 0.01)
     print "After applying non-maximum suppression we have, %d bounding boxes" % (len(pick))
-    
-    nmsImage = resizedImage.copy()
+    nmsImage = resizedImage.copy() # Make a copy of the original resized image to show
+
+    cameraHorizAngle = 60 # Let's say the camera has a 120 degrees field of view
+    pixelToAngle = 600/cameraHorizAngle # size x over FOV gives us how many pixels corresponds to 1 degree angle
+    angles = []
+
     for (startX, startY, endX, endY) in pick:
         if startY>420: # cut the upper side of the image because we already know that cubes are around floor level
             cv2.rectangle(nmsImage, (startX, startY), (endX, endY), (255, 0, 0), 4)
             print("X: " + str(startX) + " Y: " + str(startY) + " Size: " + str(endX-startX) + " x " + str(endY-startY))
+            relativeAngle = (startX+endX)/(2*pixelToAngle)
+            angle = relativeAngle-(cameraHorizAngle/2)
+            angles.append(angle)
 
+    print(angles)
     cv2.imshow("NMS Image", nmsImage)
 
     keyPressed = cv2.waitKey(1)  # Look for keys to be pressed 
     if keyPressed == 27: # if the key is ESC, check the ASCII table, 27 = ESC
-        cv2.destroyAllWindows() # Destroy the windows and close the program
+        break # Exit the loop
+
+cv2.destroyAllWindows() # Destroy the windows and close the program
