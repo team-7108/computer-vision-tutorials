@@ -7,7 +7,7 @@ import numpy as np
 def nothing(x):
     pass
 
-def non_max_suppression_fast(boxes, overlapThresh):
+def non_max_suppression_fast(boxes, overlapThregh):
     # if there are no boxes, return an empty list
     if len(boxes) == 0:
         return []
@@ -57,7 +57,7 @@ def non_max_suppression_fast(boxes, overlapThresh):
  
         # delete all indexes from the index list that have
         idxs = np.delete(idxs, np.concatenate(([last],
-            np.where(overlap > overlapThresh)[0])))
+            np.where(overlap > overlapThregh)[0])))
  
     # return only the bounding boxes that were picked using the
     # integer data type
@@ -66,20 +66,20 @@ def non_max_suppression_fast(boxes, overlapThresh):
 # Create a window named 'Colorbars'
 cv2.namedWindow('Colorbars')
 # Assign strings for ease of coding
-hh='Hue High'
-hl='Hue Low'
-sh='Saturation High'
-sl='Saturation Low'
-vh='Value High'
-vl='Value Low'
+bh='Blue High'
+bl='Blue Low'
+gh='Green High'
+gl='Green Low'
+rh='Red High'
+rl='Red Low'
 wnd = 'Colorbars'
-# Begin Creating trackbars for each HSV value
-cv2.createTrackbar(hl, wnd, 0,   255, nothing)
-cv2.createTrackbar(hh, wnd, 49,  255, nothing)
-cv2.createTrackbar(sl, wnd, 191,  255, nothing)
-cv2.createTrackbar(sh, wnd, 255, 255, nothing)
-cv2.createTrackbar(vl, wnd, 105, 255, nothing)
-cv2.createTrackbar(vh, wnd, 255, 255, nothing)
+# Begin Creating trackbars for each BGR value
+cv2.createTrackbar(bl, wnd, 0,   255, nothing)
+cv2.createTrackbar(bh, wnd, 149,  255, nothing)
+cv2.createTrackbar(gl, wnd, 156,  255, nothing)
+cv2.createTrackbar(gh, wnd, 255, 255, nothing)
+cv2.createTrackbar(rl, wnd, 214, 255, nothing)
+cv2.createTrackbar(rh, wnd, 255, 255, nothing)
 
 # Read a test image 
 # image = cv2.imread('yellow_robot_and_cube.jpeg')
@@ -88,16 +88,17 @@ image = cv2.imread('images/five_cubes.jpeg')
 resizedImage = cv2.resize(image, (600, 600))
 
 while True:
-    hul=cv2.getTrackbarPos(hl, wnd)
-    huh=cv2.getTrackbarPos(hh, wnd)
-    sal=cv2.getTrackbarPos(sl, wnd)
-    sah=cv2.getTrackbarPos(sh, wnd)
-    val=cv2.getTrackbarPos(vl, wnd)
-    vah=cv2.getTrackbarPos(vh, wnd)
-    hsvLow=np.array([hul,sal,val])
-    hsvHigh=np.array([huh,sah,vah])
+    bLow  = cv2.getTrackbarPos(bl, wnd)
+    bHigh = cv2.getTrackbarPos(bh, wnd)
+    gLow  = cv2.getTrackbarPos(gl, wnd)
+    gHigh = cv2.getTrackbarPos(gh, wnd)
+    rLow  = cv2.getTrackbarPos(rl, wnd)
+    rHigh = cv2.getTrackbarPos(rh, wnd)
+    
+    rgbLow=np.array([bLow,gLow,rLow])
+    rgbHigh=np.array([bHigh,gHigh,rHigh])
 
-    maskedImage = cv2.inRange(resizedImage, hsvLow, hsvHigh)
+    maskedImage = cv2.inRange(resizedImage, rgbLow, rgbHigh)
     cv2.imshow('Masked Image', maskedImage)
 
     kernel = np.ones((3,3),np.uint8)
@@ -167,21 +168,21 @@ while True:
 
     # Delete the first elemnt of bboxes, the one that we've used for initialization
     bboxes = np.delete(bboxes,0,0)
-    # Show Bboxed Image
+    # ghow Bboxed Image
     cv2.imshow("Bboxed Image", outputImage)
     print("Number of blobs: " + str(keypointCounter))
 
     # Apply non-maximum suppression, reference: https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
     pick = non_max_suppression_fast(bboxes, 0.01)
     print "After applying non-maximum suppression we have, %d bounding boxes" % (len(pick))
-    nmsImage = resizedImage.copy() # Make a copy of the original resized image to show
+    nmsImage = resizedImage.copy() # Make a copy of the original resized image to ghow
 
     cameraHorizAngle = 60 # Let's say the camera has a 120 degrees field of view
     pixelToAngle = 600/cameraHorizAngle # size x over FOV gives us how many pixels corresponds to 1 degree angle
     angles = []
 
     for (startX, startY, endX, endY) in pick:
-        if startY>420: # cut the upper side of the image because we already know that cubes are around floor level
+        if startY>400: # cut the upper side of the image because we already know that cubes are around floor level
             cv2.rectangle(nmsImage, (startX, startY), (endX, endY), (255, 0, 0), 4)
             print("X: " + str(startX) + " Y: " + str(startY) + " Size: " + str(endX-startX) + " x " + str(endY-startY))
             relativeAngle = (startX+endX)/(2*pixelToAngle)
