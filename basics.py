@@ -57,7 +57,7 @@ cv2.imshow("Filled Image", filledImage)
 # Now we will mark the cube to be more human readable
 # We will use a method called, contour finding to extract the outline of the cube
 # As we are using RETR_EXTERNAL approcach, actually we didn't need to fill inside
-contourImage, contours,hierarchy = cv2.findContours(filledImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+contourImage, contours, hierarchy = cv2.findContours(filledImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnt = contours[0]
 print(cnt) # contours are the points on the outline of the image
 # bounding rectangle is the minimum rectangle that includes all the contours
