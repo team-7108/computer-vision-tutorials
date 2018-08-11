@@ -83,6 +83,7 @@ while True:
         cv2.imshow("Bboxed",outImage)
         mergedImage = np.concatenate((mergedImage,outImage), axis=1)
 
+    mergedImage = mergedImage[0:600, 150:750]
     cv2.imshow("Merged",mergedImage)
 
     keyPressed = cv2.waitKey(1)  # Look for keys to be pressed 
