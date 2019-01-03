@@ -45,7 +45,8 @@ while (True):
 	vah=cv2.getTrackbarPos(vh, wnd)
 	hsvLow=np.array([hul,sal,val])
 	hsvHigh=np.array([huh,sah,vah])
-
+	# if the below is commented the process is in RGB
+	# frame = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 	maskedImage = cv2.inRange(frame, hsvLow, hsvHigh)
 	cv2.imshow('Masked Image', maskedImage)
 

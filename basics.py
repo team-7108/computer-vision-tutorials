@@ -2,9 +2,9 @@
 import cv2
 # Import numpy for array operations
 import numpy as np
-# Print the version of OpenCV 
+# Print the version of OpenCV
 print("OpenCV version: " + cv2.__version__)
-# Read a test image 
+# Read a test image
 image = cv2.imread('images/robot_and_cube.jpeg')
 # Show the image
 cv2.imshow('Image',image)
@@ -14,7 +14,7 @@ print("Height:" + str(height) + " Width: " + str(width) + " Channels: " + str(ch
 # Please note that the "channels" variable is 3 as we are currently working on RGB images
 
 # Resize the image if it is too big, also helps to speed up the processing
-resizedImage = cv2.resize(image, (600, 600)) 
+resizedImage = cv2.resize(image, (600, 600))
 # Below is an another option for resizing, also keeps aspect ratio this way
 # resizedImage = cv2.resize(image, (0,0), fx=0.5, fy=0.5)
 # Show the resized image
@@ -62,7 +62,7 @@ cnt = contours[0]
 print(cnt) # contours are the points on the outline of the image
 # bounding rectangle is the minimum rectangle that includes all the contours
 # this bounding rectangle is perpendicular to image
-x,y,w,h = cv2.boundingRect(cnt) 
+x,y,w,h = cv2.boundingRect(cnt)
 # We mark that bounding rectangle with green
 cv2.rectangle(resizedImage,(x,y),(x+w,y+h),(0,255,0),2)
 # If we want a rotated rectangle we use a slightly different method
@@ -72,6 +72,6 @@ box = np.int0(box) # turn them into integers
 cv2.drawContours(resizedImage,[box],0,(0,0,255),2) # draw the points
 cv2.imshow("Bboxed Image", resizedImage)
 
-keyPressed = cv2.waitKey(0)  # Look for keys to be pressed 
+keyPressed = cv2.waitKey(0)  # Look for keys to be pressed
 if keyPressed == 27: # if the key is ESC, check the ASCII table, 27 = ESC
 	cv2.destroyAllWindows() # Destroy the windows and close the program

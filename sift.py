@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 img1 = cv2.imread('images/cube.jpeg',0)          # queryImage
-img2 = cv2.imread('images/one_cube.jpeg',0) # trainImage
+img2 = cv2.imread('images/robot_and_cube.jpeg',0) # trainImage
 # Initiate SIFT detector
 sift = cv2.xfeatures2d.SIFT_create()
 # find the keypoints and descriptors with SIFT
