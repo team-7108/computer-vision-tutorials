@@ -174,7 +174,7 @@ while True:
 
     # Apply non-maximum suppression, reference: https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
     pick = non_max_suppression_fast(bboxes, 0.01)
-    print "After applying non-maximum suppression we have, %d bounding boxes" % (len(pick))
+    print("After applying non-maximum suppression we have" + str(len(pick)) + "bounding boxes")
     nmsImage = resizedImage.copy() # Make a copy of the original resized image to ghow
 
     cameraHorizAngle = 60 # Let's say the camera has a 120 degrees field of view

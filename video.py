@@ -26,7 +26,7 @@ cv2.createTrackbar(vl, wnd, 195, 255, nothing)
 cv2.createTrackbar(vh, wnd, 255, 255, nothing)
 
 # Start video capture from webcam
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture("frc_test.mp4")
 
 # Loop through the video frames
 while (True):

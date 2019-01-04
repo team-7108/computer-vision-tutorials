@@ -47,7 +47,7 @@ cv2.createTrackbar(rh, wnd, 255, 255, nothing)
 while True:
     mergedImage = np.zeros((600,150,3), np.uint8)
     # Split image into four pieces and merge again
-    for i in xrange(0,4):
+    for i in range(0,4):
         resizedImage = image[0:600, i*150:(i+1)*150]
         cv2.imshow("cropped", resizedImage)
 
